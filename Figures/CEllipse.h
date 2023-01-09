@@ -18,6 +18,7 @@ public:
 	void Load(ifstream&);
 	virtual bool PointInShape(int x, int y) const;
 	bool Resize(float factor, GUI* pGUI);
+	void Move(GUI*, Point);
 };
 
 #endif

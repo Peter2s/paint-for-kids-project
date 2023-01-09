@@ -91,3 +91,19 @@ bool CHexagon::PointInShape(int x, int y) const {
 	int length = sqrt(pow(P1.x - x, 2) + pow(P1.y - y, 2)); 
 	return length <= radius*2; 
 }
+
+void CHexagon::Move(GUI* pGUI, Point point) 
+{	
+	int radius = sqrt(pow(P1.x - P2.x, 2) + pow(P1.y - P2.y, 2));
+	Point P3 = { radius + point.x,  point.y };
+	Point points[6];
+	pGUI->getHexagonPoints(point, P3, points);
+	if (pGUI->allPointsInDrawingArea(points, 6))
+	{
+		P1 = point;
+		P2 = P3;
+	}
+	else {
+		pGUI->PrintMessage("can't draw outside drawing area! plz enter suitable points!");
+	}
+};

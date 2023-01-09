@@ -73,3 +73,14 @@ bool CCircle::PointInShape(int x, int y) const {
 		
 		;
 }
+void CCircle::Move(GUI* pGUI,Point point) {
+	
+	if (
+		pGUI->isBorderInDrawingArea(point, radius)
+		) {
+		center.x = point.x;
+		center.y = point.y;
+
+	}
+	
+};

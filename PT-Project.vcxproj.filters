@@ -73,6 +73,7 @@
     <ClCompile Include="Actions\ActionAddTriangle.cpp" />
     <ClCompile Include="Figures\CLine.cpp" />
     <ClCompile Include="Figures\CTriangle.cpp" />
+    <ClCompile Include="Actions\Move.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions\ActionAddEllipse.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Actions\ActionAddTriangle.h" />
     <ClInclude Include="Figures\CLine.h" />
     <ClInclude Include="Figures\CTriangle.h" />
+    <ClInclude Include="Actions\Move.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PT-Project.vcproj" />

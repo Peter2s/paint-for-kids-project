@@ -95,3 +95,27 @@ bool CSquare::PointInShape(int x, int y) const {
 		//&& (y >= TopLeftCorner.y && y <= TopLeftCorner.y + length)
 		;
 }
+void CSquare::Move(GUI* pGUI, Point point) 
+{
+	int centerOfX = point.x;
+	int centerOfY = point.y;
+
+	int resizedLength = length * 1;
+	int resizedTopLeftX = centerOfX - (resizedLength / 2);
+	int resizedTopLeftY = centerOfY - (resizedLength / 2);
+	int resizedBottomRightX = resizedLength + resizedTopLeftX;
+	int resizedBottomRightY = resizedLength + resizedTopLeftY;
+	//x > 0 && x < UI.width
+		//&& y > UI.ToolBarHeight && y < UI.height - UI.StatusBarHeight;
+
+
+	if (resizedTopLeftX > 0 && resizedTopLeftX < UI.width
+		&& resizedTopLeftY > UI.ToolBarHeight && resizedTopLeftY < UI.height - UI.StatusBarHeight
+		&& resizedBottomRightX > 0 && resizedBottomRightX < UI.width
+		&& resizedBottomRightY > UI.ToolBarHeight && resizedBottomRightY < UI.height - UI.StatusBarHeight) {
+		length = resizedLength;
+		TopLeftCorner.x = resizedTopLeftX;
+		TopLeftCorner.y = resizedTopLeftY;
+
+	}
+};

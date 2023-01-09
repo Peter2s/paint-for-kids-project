@@ -103,3 +103,26 @@ bool CEllipse::PointInShape(int x, int y) const {
 		*/
 		;
 }
+void CEllipse::Move(GUI* pGUI, Point point) 
+{
+
+	int centerOfX = point.x;
+	int centerOfY = point.y;
+	int HorizontalSpace = bottomRight.x - topLeft.x;
+	int VerticalSpace = bottomRight.y - topLeft.y;
+	int resizedBottomRightX = centerOfX + (HorizontalSpace / 2);
+	int resizedBottomRightY = centerOfY + (VerticalSpace / 2);
+	int resizedTopLeftX = centerOfX - (HorizontalSpace / 2);
+	int resizedTopLeftY = centerOfY - (VerticalSpace / 2);
+
+
+
+	if (resizedTopLeftX > 0 && resizedTopLeftX < UI.width && resizedTopLeftY > UI.ToolBarHeight && resizedTopLeftY < UI.height - UI.StatusBarHeight
+		&& resizedBottomRightX > 0 && resizedBottomRightX < UI.width && resizedBottomRightY > UI.ToolBarHeight && resizedBottomRightY < UI.height - UI.StatusBarHeight) {
+
+		topLeft.x = resizedTopLeftX;
+		topLeft.y = resizedTopLeftY;
+		bottomRight.x = resizedBottomRightX;
+		bottomRight.y = resizedBottomRightY;
+	}
+};

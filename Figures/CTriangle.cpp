@@ -60,33 +60,33 @@ void CTriangle::Load(ifstream& Infile) {
 }
 
 bool CTriangle::Resize(float factor, GUI* pGUI) {
-	int length = max(abs(point1.x - point2.x), abs(point1.y - point2.y));
-	int centerOfX = point1.x + (length / 2);
-	int centerOfY = (point1.y + (length / 2));
-	
-	
-	int resizedLength = length * factor;
-	int resizedTopLeftX = centerOfX - (resizedLength / 2);
-	int resizedTopLeftY = centerOfY - (resizedLength / 2);
-	int resizedBottomRightX = resizedLength + resizedTopLeftX;
-	int resizedBottomRightY = resizedLength + resizedTopLeftY;
-	//x > 0 && x < UI.width
-		//&& y > UI.ToolBarHeight && y < UI.height - UI.StatusBarHeight;
-
-
-	if (resizedTopLeftX > 0 && resizedTopLeftX < UI.width
-		&& resizedTopLeftY > UI.ToolBarHeight && resizedTopLeftY < UI.height - UI.StatusBarHeight
-		&& resizedBottomRightX > 0 && resizedBottomRightX < UI.width
-		&& resizedBottomRightY > UI.ToolBarHeight && resizedBottomRightY < UI.height - UI.StatusBarHeight) {
-		length = resizedLength;
-		point1.x = resizedTopLeftX;
-		point1.y = resizedTopLeftY;
+	Point center,p1,p2,p3;
+	center.x = (point1.x + point2.x + point3.x) / 3;
+	center.y = (point1.y + point2.y + point3.y) / 3;
+	p1.x = center.x + (point1.x - center.x) * factor;
+	p1.y = center.y + (point1.y - center.y) * factor;
+	p2.x = center.x + (point2.x - center.x) * factor;
+	p2.y = center.y + (point2.y - center.y) * factor;
+	p3.x = center.x + (point3.x - center.x) * factor;
+	p3.y = center.y + (point3.y - center.y) * factor;
+	if (
+		min(p1.x,p2.x,p3.x)> 0 
+		&& max(p1.x, p2.x, p3.x) < UI.width
+		&& min(p1.y, p2.y, p3.y) > UI.ToolBarHeight 
+		&& max(p1.y, p2.y, p3.y) < UI.height - UI.StatusBarHeight) 
+	{
+		point1.x = p1.x;
+		point1.y = p1.y;
+		point2.x = p2.x;
+		point2.y = p2.y;
+		point3.x = p3.x;
+		point3.y = p3.y;
 
 		return true;
 	}
 	return false;
-
 }
+
 float area(int x1, int y1, int x2, int y2, int x3, int y3)
 {
 	return abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0);
@@ -112,3 +112,30 @@ bool CTriangle::PointInShape(int x, int y) const {
 
 	
 }
+void CTriangle::Move(GUI* pGUI, Point point) 
+{
+	Point center, p1, p2, p3;
+	int factor = 1;
+	center.x = (point1.x + point2.x + point3.x) / 3;
+	center.y = (point1.y + point2.y + point3.y) / 3;
+	p1.x = point.x + (point1.x - center.x) * factor;
+	p1.y = point.y + (point1.y - center.y) * factor;
+	p2.x = point.x + (point2.x - center.x) * factor;
+	p2.y = point.y + (point2.y - center.y) * factor;
+	p3.x = point.x + (point3.x - center.x) * factor;
+	p3.y = point.y + (point3.y - center.y) * factor;
+	if (
+		min(p1.x, p2.x, p3.x) > 0
+		&& max(p1.x, p2.x, p3.x) < UI.width
+		&& min(p1.y, p2.y, p3.y) > UI.ToolBarHeight
+		&& max(p1.y, p2.y, p3.y) < UI.height - UI.StatusBarHeight)
+	{
+		point1.x = p1.x;
+		point1.y = p1.y;
+		point2.x = p2.x;
+		point2.y = p2.y;
+		point3.x = p3.x;
+		point3.y = p3.y;
+
+	}
+};
