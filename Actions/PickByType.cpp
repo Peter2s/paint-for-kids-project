@@ -8,9 +8,6 @@
 #include "..\Figures\CRectangle.h"
 #include "..\Figures\CTriangle.h"
 #include "..\GUI\GUI.h"
-#include <iostream>
-
-
 
 PickByType::PickByType(ApplicationManager* pApp) :Action(pApp)
 {
@@ -19,25 +16,6 @@ PickByType::PickByType(ApplicationManager* pApp) :Action(pApp)
 	wrongSelect = 0;
 	for (int i = 0; i < 7; i++)
 		figs[i] = 0;
-}
-void PickByType::PirntScore(int S)
-{
-	GUI* pGUI = pManager->GetGUI();
-
-	string message;
-	if (S == 1)
-	{
-		rightSelect++;
-		message = "Right!, Your score is: " + to_string(rightSelect) + " Right, and " + to_string(wrongSelect) + " Wrong.";
-		cout <<"==" << rightSelect;
-
-	}
-	else if (S == 0)
-	{
-		wrongSelect++;
-		message = "Wrong!, Your score is: " + to_string(rightSelect) + " Right, and " + to_string(wrongSelect) + " Wrong.";
-	}
-	pGUI->PrintMessage(message);
 }
 
 void PickByType::ReadActionParameters()
@@ -61,134 +39,149 @@ void PickByType::ReadActionParameters()
 	}		for (int i = 0; i < 7; i++)
 		if (figs[i] != 0)numberOfFigures++;
 }
-void PickByType::Execute()
-{
+void PickByType::Execute(){
 	GUI* pGUI = pManager->GetGUI();
 	ReadActionParameters();
-	if (numberOfFigures > 1)
-	{
+	if (numberOfFigures > 1){
 		CFigure* clickedFig;
-		//Randomize
-		rand_fig_no = rand() % pManager->getFigCount();
+		// ger random number from figures
+		randomNumberOfFigure = rand() % pManager->getFigCount();
 		//counting fig instances
-		Fig = pManager->DrawnFigs(rand_fig_no);
-		if (dynamic_cast<CSquare*>(Fig))
+		Fig = pManager->DrawnFigs(randomNumberOfFigure);
+		countOfFiguresInstances(Fig, pGUI);
+		int figuresNumberMustPicked = numberOfPickedFigure;
+		while (numberOfPickedFigure > 0)
 		{
-			picked_fig_no = figs[0];
-			pGUI->PrintMessage("Pick up all the Squares!");
-		}
-		else if (dynamic_cast<CEllipse*>(Fig))
-		{
-			picked_fig_no = figs[1];
-			pGUI->PrintMessage("Pick up all the Ellipses!");
-		}
-		else if (dynamic_cast<CHexagon*>(Fig))
-		{
-			picked_fig_no = figs[2];
-			pGUI->PrintMessage("Pick up all the Hexagones!");
-		}
-		else if (dynamic_cast<CCircle* > (Fig))
-		{
-			picked_fig_no = figs[3];
-			pGUI->PrintMessage("Pick up all the Circles!");
-		}
-		else if (dynamic_cast<CRectangle*>(Fig))
-		{
-			picked_fig_no = figs[4];
-			pGUI->PrintMessage("Pick up all the Rectangles!");
-		}
-		else if (dynamic_cast<CTriangle*>(Fig))
-		{
-			picked_fig_no = figs[5];
-			pGUI->PrintMessage("Pick up all the Triangles!");
-		}
-		else {
-			pGUI->PrintMessage(" Not figures");
-		}
-		
-		while (picked_fig_no > 0)
-		{
-			{
+				if (wrongSelect >= figuresNumberMustPicked) break;
 				pGUI->GetPointClicked(P.x, P.y);
 				if (P.y > UI.ToolBarHeight || P.x > (UI.MenuItemWidth * PLAY_ITM_COUNT))
 				{
 					clickedFig = pManager->GetFigure(P.x, P.y);
 					if (clickedFig != NULL)
-					{	
-						 if ((dynamic_cast<CSquare*>(clickedFig)) && (dynamic_cast<CSquare*>(Fig)))
-						{
-							PirntScore(1);
-							clickedFig->Hide();
-							pManager->UpdateInterface();
-							picked_fig_no--;
-						}
-						else if ((dynamic_cast<CEllipse*>(clickedFig)) && (dynamic_cast<CEllipse*>(Fig)))
-						{
-							PirntScore(1);
-							clickedFig->Hide();
-							pManager->UpdateInterface();
-							picked_fig_no--;
-						}
-						
-						else if ((dynamic_cast<CHexagon*>(clickedFig)) && (dynamic_cast<CHexagon*>(Fig)))
-						 {
-							 PirntScore(1);
-							 clickedFig->Hide();
-							 pManager->UpdateInterface();
-							 picked_fig_no--;
-						 }
-
-						else if ((dynamic_cast<CCircle*>(clickedFig)) && (dynamic_cast<CCircle*>(Fig)))
-						 {
-							 PirntScore(1);
-							 clickedFig->Hide();
-							 pManager->UpdateInterface();
-							 picked_fig_no--;
-						 }
-
-						else if ((dynamic_cast<CRectangle*>(clickedFig)) && (dynamic_cast<CRectangle*>(Fig)))
-						 {
-							 PirntScore(1);
-							 clickedFig->Hide();
-							 pManager->UpdateInterface();
-							 picked_fig_no--;
-						 }
-						else if ((dynamic_cast<CTriangle*>(clickedFig)) && (dynamic_cast<CTriangle*>(Fig)))
-						 {
-							 PirntScore(1);
-							 clickedFig->Hide();
-							 pManager->UpdateInterface();
-							 picked_fig_no--;
-						 }
-						else
-						{
-							PirntScore(0);
-							clickedFig->Hide();
-							pManager->UpdateInterface();
-						}
-					}
+						onFigureClicked(clickedFig);
 				}
 				else
 				{
 					pGUI->PrintMessage(" game ended");
-					picked_fig_no = -1;
+					numberOfPickedFigure = -1;
 				}
-			}
-			if (picked_fig_no == 0) {// when sclected all fiugre selceted
-				PirntScore(3);
-				if (rightSelect > wrongSelect) {
-					pGUI->PrintMessage("You won!");
-				}
-				else {
-					pGUI->PrintMessage("You lost!");
-				}
-			}
 		}
-	}
-	else
-		pGUI->PrintMessage("You must have at least two or more figures to play to play pick by figure!");
+			if (numberOfPickedFigure == 0) // when sclected all fiugre selceted
+					pGUI->PrintMessage("You won!");
+			else if(wrongSelect == figuresNumberMustPicked)
+					pGUI->PrintMessage("You lost!");
+	}else
+		pGUI->PrintMessage("You must have at least two or more shape to play pick by shapes");
+
+
 	for (int i = 0; i < pManager->getFigCount(); i++)
 		pManager->DrawnFigs(i)->Show();
-	pManager->UpdateInterface();
 
+	pManager->UpdateInterface();
+}
+void PickByType::countOfFiguresInstances(CFigure* Fig,GUI* pGUI) {
+	if (dynamic_cast<CSquare*>(Fig))
+	{
+		numberOfPickedFigure = figs[0];
+		pGUI->PrintMessage("Pick up all the Squares!");
+	}
+	else if (dynamic_cast<CEllipse*>(Fig))
+	{
+		numberOfPickedFigure = figs[1];
+		pGUI->PrintMessage("Pick up all the Ellipses!");
+	}
+	else if (dynamic_cast<CHexagon*>(Fig))
+	{
+		numberOfPickedFigure = figs[2];
+		pGUI->PrintMessage("Pick up all the Hexagones!");
+	}
+	else if (dynamic_cast<CCircle*> (Fig))
+	{
+		numberOfPickedFigure = figs[3];
+		pGUI->PrintMessage("Pick up all the Circles!");
+	}
+	else if (dynamic_cast<CRectangle*>(Fig))
+	{
+		numberOfPickedFigure = figs[4];
+		pGUI->PrintMessage("Pick up all the Rectangles!");
+	}
+	else if (dynamic_cast<CTriangle*>(Fig))
+	{
+		numberOfPickedFigure = figs[5];
+		pGUI->PrintMessage("Pick up all the Triangles!");
+	}
+	else {
+		pGUI->PrintMessage(" Not figures");
+	}
+
+}
+void PickByType::onFigureClicked(CFigure* clickedFig) {
+	if ((dynamic_cast<CSquare*>(clickedFig)) && (dynamic_cast<CSquare*>(Fig)))
+	{
+		PirntScore(1);
+		clickedFig->Hide();
+		pManager->UpdateInterface();
+		numberOfPickedFigure--;
+	}
+	else if ((dynamic_cast<CEllipse*>(clickedFig)) && (dynamic_cast<CEllipse*>(Fig)))
+	{
+		PirntScore(1);
+		clickedFig->Hide();
+		pManager->UpdateInterface();
+		numberOfPickedFigure--;
+	}
+
+	else if ((dynamic_cast<CHexagon*>(clickedFig)) && (dynamic_cast<CHexagon*>(Fig)))
+	{
+		PirntScore(1);
+		clickedFig->Hide();
+		pManager->UpdateInterface();
+		numberOfPickedFigure--;
+	}
+
+	else if ((dynamic_cast<CCircle*>(clickedFig)) && (dynamic_cast<CCircle*>(Fig)))
+	{
+		PirntScore(1);
+		clickedFig->Hide();
+		pManager->UpdateInterface();
+		numberOfPickedFigure--;
+	}
+
+	else if ((dynamic_cast<CRectangle*>(clickedFig)) && (dynamic_cast<CRectangle*>(Fig)))
+	{
+		PirntScore(1);
+		clickedFig->Hide();
+		pManager->UpdateInterface();
+		numberOfPickedFigure--;
+	}
+	else if ((dynamic_cast<CTriangle*>(clickedFig)) && (dynamic_cast<CTriangle*>(Fig)))
+	{
+		PirntScore(1);
+		clickedFig->Hide();
+		pManager->UpdateInterface();
+		numberOfPickedFigure--;
+	}
+	else
+	{
+		PirntScore(0);
+		clickedFig->Hide();
+		pManager->UpdateInterface();
+	}
+}
+void PickByType::PirntScore(int S)
+{
+	GUI* pGUI = pManager->GetGUI();
+
+	string message;
+	if (S == 1)
+	{
+		rightSelect++;
+		message = "correct!, Your score is: " + to_string(rightSelect) + " correct and " + to_string(wrongSelect) + " incorrect";
+	}
+	else if (S == 0)
+	{
+		wrongSelect++;
+		message = "incorrect!, Your score is: " + to_string(rightSelect) + " correct, and " + to_string(wrongSelect) + " incorrect";
+	}
+	pGUI->PrintMessage(message);
 }
