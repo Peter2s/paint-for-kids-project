@@ -103,7 +103,7 @@ void CHexagon::Move(GUI* pGUI, Point point)
 		P1 = point;
 		P2 = P3;
 	}
-	else {
+	/*else {
 		pGUI->PrintMessage("can't draw outside drawing area! plz enter suitable points!");
-	}
+	}*/
 };

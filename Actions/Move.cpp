@@ -15,7 +15,7 @@ void Move::Execute()
 	CFigure* figure = pManager->getSelected();
 	
 	if (figure == NULL) {
-		pGUI->PrintMessage("Select the shape you want to reisze");
+		pGUI->PrintMessage("Select the shape you want to Move");
 		Point point;
 		pGUI->GetPointClicked(point.x, point.y);
 		figure = pManager->GetFigure(point.x, point.y);
