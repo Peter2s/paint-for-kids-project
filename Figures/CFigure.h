@@ -43,8 +43,10 @@ public:
 	void Show();
 	void Hide();
 	bool HiddenStatus();
-
+	virtual void Move(GUI* pGUI, Point point) = 0;
+	
 	GfxInfo GetGfxInfo() const;
+
 
 	//virtual void PrintInfo(Output* pOut) = 0;	//print all figure info on the status bar
 };

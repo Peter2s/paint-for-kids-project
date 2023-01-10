@@ -12,7 +12,13 @@ Delete::Delete(ApplicationManager* pApp) :Action(pApp)
 void Delete::Execute()
 {
 	GUI* pGUI = pManager->GetGUI();
-	if (pManager->getSelected() != NULL)
+	
+	if (pManager->getSelected() == NULL)
+	{
+		pGUI->PrintMessage("Select a shape before you can perform this action");
+	}
+	
+	while (pManager->getSelected() != NULL)
 
 	{
 
@@ -22,7 +28,5 @@ void Delete::Execute()
 		//pManager->UpdateInterface();
 		pGUI->PrintMessage("Deleted Successfully");
 	}
-	else {
-		pGUI->PrintMessage("Select a shape before you can perform this action");
-	}
+
 }

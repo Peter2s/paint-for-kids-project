@@ -26,6 +26,7 @@
 #include "Actions\ActionPickByFill.h"
 #include "Actions\changeFigFillColor.h"
 #include "Actions\changeFigDrawColor.h"
+#include "Actions\Move.h"
 
 
 
@@ -122,6 +123,9 @@ Action* ApplicationManager::CreateAction(ActionType ActType)
 		break;
 	case SELECT:
 		newAct = new Select(this);
+		break;
+	case MOVE:
+		newAct = new Move(this);
 		break;
 	case DEL:
 		newAct = new Delete(this);

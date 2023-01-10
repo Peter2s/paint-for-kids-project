@@ -124,3 +124,25 @@ bool CLine::PointInShape(int x, int y) const {
 		&& (y >= point2.y && y <= point1.y)
 		;*/
 }
+void CLine::Move(GUI* pGUI, Point point) 
+{
+	int centerOfX = point.x;
+	int centerOfY = point.y;
+	int HorizontalSpace = point2.x - point1.x;
+	int VerticalSpace = point2.y - point1.y;
+	int resizedBottomRightX = centerOfX + (HorizontalSpace / 2);
+	int resizedBottomRightY = centerOfY + (VerticalSpace / 2);
+	int resizedTopLeftX = centerOfX - (HorizontalSpace / 2);
+	int resizedTopLeftY = centerOfY - (VerticalSpace / 2);
+
+
+
+	if (resizedTopLeftX > 0 && resizedTopLeftX < UI.width && resizedTopLeftY > UI.ToolBarHeight && resizedTopLeftY < UI.height - UI.StatusBarHeight
+		&& resizedBottomRightX > 0 && resizedBottomRightX < UI.width && resizedBottomRightY > UI.ToolBarHeight && resizedBottomRightY < UI.height - UI.StatusBarHeight) {
+
+		point1.x = resizedTopLeftX;
+		point1.y = resizedTopLeftY;
+		point2.x = resizedBottomRightX;
+		point2.y = resizedBottomRightY;
+	}
+};

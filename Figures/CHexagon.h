@@ -21,6 +21,7 @@ public:
 	virtual void DrawMe(GUI* pOut) const;
 	virtual bool PointInShape(int x, int y) const ;
 	bool Resize(float factor, GUI* pGUI);
+	void Move(GUI*, Point);
 
 };
 

@@ -1,8 +1,6 @@
 #include "ActionAddCircle.h"
 #include "..\Figures\CCircle.h"
-
 #include "..\ApplicationManager.h"
-
 #include "..\GUI\GUI.h"
 
 ActionAddCircle::ActionAddCircle(ApplicationManager* pApp) :Action(pApp)

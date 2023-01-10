@@ -30,6 +30,7 @@ enum DrawMenuItem //The items of the Draw menu (you should add more items)
 	FIG_COLOR,
 	FIG_BORDER,
 	ITM_Select,
+	ITM_MOVE,
 	ITM_Delete,
 	ITM_Send_Back,
 	ITM_Send_Front,
