@@ -10,14 +10,15 @@ class PickByFill :
 	public Action
 {
 	CFigure* Fig = NULL;
-	int  no_colors, rand_fig_no, picked_color_no, wrgSel, rigSel;
+	int  numberOfColors, randomNumberOfFigure, numberOfPickedColor, wrongSelect, rightSelect;
 	int clrs[7];
 	Point P;
 	color AssignColor(CFigure*);
-	void PrntScore(int);
+	void countOfFiguresColors(CFigure*,GUI*);
+	void onFigureClicked(CFigure*,GUI*);
+	void PirntScore(int);
 public:
 	PickByFill(ApplicationManager*);
-	~PickByFill();
 	void ReadActionParameters();
 	void Execute();
 

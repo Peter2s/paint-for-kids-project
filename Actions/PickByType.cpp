@@ -44,7 +44,7 @@ void PickByType::Execute(){
 	ReadActionParameters();
 	if (numberOfFigures > 1){
 		CFigure* clickedFig;
-		// ger random number from figures
+		// get random number from figures
 		randomNumberOfFigure = rand() % pManager->getFigCount();
 		//counting fig instances
 		Fig = pManager->DrawnFigs(randomNumberOfFigure);
