@@ -3,6 +3,7 @@
 #include "..\ApplicationManager.h"
 
 #include "..\GUI\GUI.h"
+#include<windows.h> // for windows
 
 Move::Move(ApplicationManager* pApp) :Action(pApp)
 {
@@ -26,6 +27,7 @@ void Move::Execute()
 		/**/
 		while (pGUI->pWind->GetButtonState(LEFT_BUTTON, point.x, point.y) == BUTTON_UP) {
 			//sleep(.1);
+			Sleep(100);
 			figure->Move(pGUI,point);
 			pGUI->ClearDrawArea();
 			pManager->UpdateInterface();
