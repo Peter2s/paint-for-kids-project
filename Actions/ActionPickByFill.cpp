@@ -6,8 +6,6 @@
 #include "..\GUI\GUI.h"
 
 
-
-
 PickByFill::PickByFill(ApplicationManager* pApp) :Action(pApp)
 {
 	numberOfColors = 0;
@@ -114,25 +112,21 @@ void PickByFill::countOfFiguresColors(CFigure* Fig,GUI* pGUI){
 	{
 		numberOfPickedColor = clrs[3];
 		pGUI->PrintMessage("Pick up figures colored green!");
-
 	}
 	else if (Fig->GetGfxInfo().FillClr == RED)
 	{
 		numberOfPickedColor = clrs[4];
 		pGUI->PrintMessage("Pick up figures colored red!");
-
 	}
 	else if (Fig->GetGfxInfo().FillClr == PINK)
 	{
 		numberOfPickedColor = clrs[5];
 		pGUI->PrintMessage("Pick up figures colored pink!");
-
 	}
 	else if (Fig->GetGfxInfo().FillClr == PURPLE)
 	{
 		numberOfPickedColor = clrs[6];
 		pGUI->PrintMessage("Pick up figures colored purple!");
-
 	}
 }
 void PickByFill::onFigureClicked(CFigure* clickedFig,GUI* pGUI) {

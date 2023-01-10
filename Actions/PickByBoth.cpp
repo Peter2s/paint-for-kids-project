@@ -7,41 +7,15 @@
 #include "..\Actions\Delete.h"
 
 
-
-
-void PickByBoth::PrntScore(int S)
-{
-	GUI* pGUI = pManager->GetGUI();
-
-	string message;
-	if (S == 1)
-	{
-		rigSel++;
-		message = "Right!, Your score is: " + to_string(rigSel) + " Right, and " + to_string(wrgSel) + " Wrong.";
-	}
-	else 	if (S == 2)
-	{
-		wrgSel++;
-		message = "Wrong!, Your score is: " + to_string(rigSel) + " Right, and " + to_string(wrgSel) + " Wrong.";
-	}
-	
-
-}
-
 PickByBoth::PickByBoth(ApplicationManager* pApp) :Action(pApp)
 {
 	no_combs = 0;
-	wrgSel = 0;
-	rigSel = 0;
+	wrongSelect = 0;
+	rightSelect = 0;
 	for (int i = 0; i < 24; i++)
 		combinations[i] = 0;
 }
 
-
-PickByBoth::~PickByBoth()
-{
-
-}
 
 void PickByBoth::ReadActionParameters()
 {
@@ -127,8 +101,6 @@ void PickByBoth::ReadActionParameters()
 	for (int i = 0; i < 24; i++)
 		if (combinations[i] != 0)
 			no_combs++;
-
-
 }
 
 void PickByBoth::Execute()
@@ -211,8 +183,6 @@ void PickByBoth::Execute()
 					pGUI->PrintMessage("Pick up all the Blue Hexagons!");
 
 				}
-
-
 			}
 			else if (Fig->GetGfxInfo().FillClr == GREEN)
 			{
@@ -302,15 +272,10 @@ void PickByBoth::Execute()
 			{
 				picked_comb_no = combinations[20];
 				pGUI->PrintMessage("Pick up all the Purple Hexagons!");
-
 			}
 
 
 			}
-
-			
-		
-
 		else
 		{
 			if (dynamic_cast<CSquare*>(Fig))
@@ -330,14 +295,8 @@ void PickByBoth::Execute()
 				picked_comb_no = combinations[23];
 				pGUI->PrintMessage("Pick up all the unfilled Hexagons!");
 
-			}
-			
-			
-
+			}	
 		}
-
-
-
 		while (picked_comb_no > 0)
 		{
 
@@ -346,26 +305,24 @@ void PickByBoth::Execute()
 			{
 				clickedFig = pManager->GetFigure(P.x, P.y);
 				if (clickedFig != NULL)
-				{
-
-					
+				{	
 					 if (dynamic_cast<CSquare*>(Fig) && dynamic_cast<CSquare*>(clickedFig) && (clickedFig->GetGfxInfo().FillClr == Fig->GetGfxInfo().FillClr))
 					{
-						PrntScore(1);
+						 PirntScore(1);
 						clickedFig->Hide();
 						pManager->UpdateInterface();
 						picked_comb_no--;
 					}
 					else if (dynamic_cast<CEllipse*>(Fig) && dynamic_cast<CEllipse*>(clickedFig) && (clickedFig->GetGfxInfo().FillClr == Fig->GetGfxInfo().FillClr))
 					{
-						PrntScore(1);
+						 PirntScore(1);
 						clickedFig->Hide();
 						pManager->UpdateInterface();
 						picked_comb_no--;
 					}
 					else if (dynamic_cast<CHexagon*>(Fig) && dynamic_cast<CHexagon*>(clickedFig) && (clickedFig->GetGfxInfo().FillClr == Fig->GetGfxInfo().FillClr))
 					{
-						PrntScore(1);
+						 PirntScore(1);
 						clickedFig->Hide();
 						pManager->UpdateInterface();
 						picked_comb_no--;
@@ -373,7 +330,7 @@ void PickByBoth::Execute()
 
 					else
 					{
-						PrntScore(2);
+						 PirntScore(0);
 						clickedFig->Hide();
 						pManager->UpdateInterface();
 					}
@@ -388,20 +345,35 @@ void PickByBoth::Execute()
 
 		
 		if (picked_comb_no == 0)
-			PrntScore(3);
-		if (rigSel > wrgSel) {
+		if (rightSelect > wrongSelect) {
 			pGUI->PrintMessage("You won!");
 
 		}
 		else {
 			pGUI->PrintMessage("You lost!");
 
-
 		}
-
 	}
 	else pGUI->PrintMessage("You must have at least two or more combinations to play pick by both!");
 	for (int i = 0; i < pManager->getFigCount(); i++)
 		pManager->DrawnFigs(i)->Show();
 	pManager->UpdateInterface();
 }
+void PickByBoth::PirntScore(int S)
+{
+	GUI* pGUI = pManager->GetGUI();
+
+	string message;
+	if (S == 1)
+	{
+		rightSelect++;
+		message = "correct!, Your score is: " + to_string(rightSelect) + " correct and " + to_string(wrongSelect) + " incorrect";
+	}
+	else if (S == 0)
+	{
+		wrongSelect++;
+		message = "incorrect!, Your score is: " + to_string(rightSelect) + " correct, and " + to_string(wrongSelect) + " incorrect";
+	}
+	pGUI->PrintMessage(message);
+}
+
